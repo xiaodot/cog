@@ -4,6 +4,7 @@ defmodule Cog.Models.Bundle do
 
   schema "bundles" do
     field :name, :string
+    field :version, Cog.Models.Bundle.Version, default: [0,0,0]
     field :config_file, :map
     field :manifest_file, :map
     field :enabled, :boolean, default: false
@@ -16,16 +17,16 @@ defmodule Cog.Models.Bundle do
   end
 
   @required_fields ~w(name config_file manifest_file)
-  @optional_fields ~w(enabled)
+  @optional_fields ~w(enabled version)
 
-  summary_fields [:id, :name, :namespace, :inserted_at, :enabled]
-  detail_fields [:id, :name, :namespace, :commands, :inserted_at, :enabled]
+  summary_fields [:id, :name, :version, :namespace, :inserted_at, :enabled]
+  detail_fields [:id, :name, :version, :namespace, :commands, :inserted_at, :enabled]
 
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_format(:name, ~r/\A[A-Za-z0-9\_\-\.]+\z/)
-    |> unique_constraint(:name, name: :bundles_name_index)
+    |> unique_constraint(:name, name: :bundles_name_version_index)
     |> enable_if_embedded
   end
 
