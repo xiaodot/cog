@@ -57,7 +57,7 @@ defmodule Cog.Bundle.Embedded do
     :ok = GenServer.call(Cog.Relay.Relays, {:announce_embedded_relay, message})
   end
 
-  defp embedded_bundle,
+  def embedded_bundle,
     do: Config.gen_config(Cog.embedded_bundle, cog_modules, @embedded_bundle_root)
 
   defp cog_modules,
