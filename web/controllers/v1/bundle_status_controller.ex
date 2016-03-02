@@ -47,7 +47,7 @@ defmodule Cog.V1.BundleStatusController do
   def manage_status(conn, %{"id" => id, "status" => desired_status}) when desired_status in ["enabled", "disabled"] do
     case Repo.one(Bundles.bundle_details(id)) do
       %Bundle{}=bundle ->
-        case Bundle.Status.set(bundle, String.to_existing_atom(desired_status)) do
+        case set_status(bundle, desired_status) do
           {:ok, bundle} ->
             result = Bundle.Status.current(bundle)
             json(conn, result)
@@ -62,5 +62,10 @@ defmodule Cog.V1.BundleStatusController do
     do: send_resp(conn, 400, Poison.encode!(%{error: "Unrecognized status: #{inspect bad_status}"}))
   def manage_status(conn, _params),
     do: send_resp(conn, 400, Poison.encode!(%{error: "Bad request"}))
+
+  defp set_status(bundle, "enabled"),
+    do: Repo.enable_bundle(bundle)
+  defp set_status(bundle, "disabled"),
+    do: Repo.disable_bundle(bundle)
 
 end

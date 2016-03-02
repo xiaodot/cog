@@ -110,6 +110,9 @@ defmodule Cog.Command.Pipeline.Executor do
   use Adz
   use Cog.Util.Debug
 
+  # Do other places alias repo?
+  alias Cog.Repo
+
   def start_link(request) do
     :gen_fsm.start_link(__MODULE__, [request], [])
   end
@@ -320,7 +323,7 @@ defmodule Cog.Command.Pipeline.Executor do
   def run_command(:timeout, %__MODULE__{current_bound: current_bound,
                                         request: request}=state) do
     {bundle, name} = Models.Command.split_name(current_bound.command)
-    case Cog.Command.BundleCache.status(bundle) do
+    case Repo.Bundle.bundle_status(bundle) do
       {:ok, :enabled} ->
         case Cog.Relay.Relays.pick_one(bundle) do
           nil ->

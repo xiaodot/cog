@@ -94,7 +94,7 @@ defmodule Cog.Commands.Bundle do
                                     and action in ["enable", "disable"] do
      case find_bundle(bundle_name) do
        {:ok, bundle} ->
-         case Bundle.Status.set(bundle, action_to_status(action)) do
+         case set_status(bundle, action) do
            {:ok, bundle} ->
              {:ok, Bundle.Status.current(bundle)}
            {:error, :embedded_bundle}=error ->
@@ -116,8 +116,10 @@ defmodule Cog.Commands.Bundle do
      {:error, :invalid_invocation}
    end
 
-   defp action_to_status("enable"), do: :enabled
-   defp action_to_status("disable"), do: :disabled
+   defp set_status(bundle, "enable"),
+     do: Repo.enable_bundle(bundle)
+   defp set_status(bundle, "disable"),
+     do: Repo.disable_bundle(bundle)
 
    defp find_bundle(name) do
      case Repo.get_by(Bundle, name: name) do
