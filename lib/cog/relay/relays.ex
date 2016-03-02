@@ -21,6 +21,10 @@ defmodule Cog.Relay.Relays do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
+
+  # TODO: Need to take a bundle version here
+  # Possibly just take a bundle model and grab the name and version
+  # from there?
   @doc """
   Choses a relay at random that is currently actively running `bundle`.
 
@@ -35,6 +39,9 @@ defmodule Cog.Relay.Relays do
     GenServer.call(__MODULE__, {:drop_bundle, bundle}, :infinity)
   end
 
+  # TODO: Need to take a bundle version here
+  # Possibly just take a bundle model and grab the name and version
+  # from there?
   @doc """
   Returns the IDs of all Relays currently running `bundle_name`. If no
   Relays are running the bundle, an empty list is returned.

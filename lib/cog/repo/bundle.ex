@@ -41,10 +41,13 @@ defmodule Cog.Repo.Bundle do
     end
   end
 
-  # TODO: Currently returns {:ok, :enabled/:disabled}... needs to
-  # return something like {:ok, {:enabled, version} |
-  # :disabled}... that will require the cache to incorporate version,
+  # TODO: Change return type to encompass bundle version as
+  # well.... that will require the cache to incorporate version,
   # though.
+  #
+  # {:enabled, version}
+  # :disabled
+  # :not_found
 
   # TODO: Just fold the cache into this?
 
