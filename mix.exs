@@ -47,7 +47,7 @@ defmodule Cog.Mixfile do
   end
 
   defp deps do
-    [{:slack, github: "BlakeWilliams/Elixir-Slack"},
+    [{:slack, github: "BlakeWilliams/Elixir-Slack", ref: "4520d42070b2d9f4aefc97a41d2b035e8a8a46aa"},
      {:websocket_client, github: "jeremyong/websocket_client"},
      {:poison, "~> 1.5.2"},
      {:ibrowse, "~> 4.2.2", override: true},
