@@ -8,6 +8,7 @@ defmodule Cog.Models.VersionedRule do
   schema "rules" do
     field :parse_tree, :string
     field :score, :integer
+    field :enabled, :boolean, default: true
 
    belongs_to :command, CommandVersion
 
@@ -17,10 +18,7 @@ defmodule Cog.Models.VersionedRule do
   end
 
   @required_fields ~w(parse_tree score)
-  @optional_fields ~w()
-
-  summary_fields [:id, :score, :parse_tree]
-  detail_fields [:id, :score, :parse_tree]
+  @optional_fields ~w(enabled)
 
   def insert_new(%CommandVersion{}=command, %Ast.Rule{}=rule) do
     insert_new(command, %{parse_tree: Parser.rule_to_json!(rule),
